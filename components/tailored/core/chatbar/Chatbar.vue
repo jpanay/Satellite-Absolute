@@ -216,10 +216,24 @@ export default Vue.extend({
      */
     handleDrop(e: any) {
       e.preventDefault()
-      const file = e.dataTransfer.items[0].getAsFile()
-      const handleFileExpectEvent = { target: { files: [file] } }
-      // @ts-ignore
-      this.$refs['file-upload']?.handleFile(handleFileExpectEvent)
+      const dataType = e.dataTransfer.types[0]
+      console.log(dataType)
+      if (dataType === 'Files') {
+        const file = e.dataTransfer.items[0].getAsFile()
+        const handleFileExpectEvent = { target: { files: [file] } }
+        // @ts-ignore
+        this.$refs['file-upload']?.handleFile(handleFileExpectEvent)
+      }
+    },
+    handlePaste(e: any) {
+      e.preventDefault()
+      const dataType = e.clipboardData.types[0]
+      if (dataType === 'Files') {
+        const file = e.clipboardData.items[0].getAsFile()
+        const handleFileExpectEvent = { target: { files: [file] } }
+        // @ts-ignore
+        this.$refs['file-upload']?.handleFile(handleFileExpectEvent)
+      }
     },
   },
   watch: {
